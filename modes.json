@@ -1,0 +1,37 @@
+{
+    "default": {
+        "elastic_url": ["http://elasticsearch2:9200"],
+        "sql": "karp",
+        "type": "lexicalentry",
+        "secret_fields": ["lastmodifiedBy"],
+        "head_sort_field": ["lexiconOrder"],
+        "src": "",
+        "suggestionalias": "karpsuggestion"
+    },
+   "sesamfroer": {
+        "is_index": true,
+        "indexalias": "sesamfroer",
+        "sort_by": ["lexiconOrder", "_score", "family.bucket", "cultivar.bucket"],
+        "autocomplete_field": ["cultivar"],
+        "minientry_fields": ["lexiconName", "cultivar.bucket", "family.bucket"],
+        "boosts": ["cultivar"]
+    },
+   "sesammembers": {
+        "is_index": true,
+        "indexalias": "sesammembers",
+        "sort_by": ["lexiconOrder", "_score", "name.firstname.bucket", "name.lastname.bucket"],
+        "autocomplete_field": ["name.firstname", "name.lastname"],
+        "minientry_fields": ["lexiconName", "name"],
+        "boosts": ["name.firstname", "name.lastname"]
+    },
+   "sesam": {
+        "is_index": false,
+        "groups": ["sesammembers", "sesamfroer"],
+        "sort_by": ["lexiconOrder", "_score"],
+        "indexalias": "sesam",
+        "autocomplete_field": ["lexiconName"],
+        "statistics_buckets": ["lexiconName"],
+        "minientry_fields": ["lexiconName"],
+        "boosts": []
+    }
+}

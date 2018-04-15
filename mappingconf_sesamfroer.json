@@ -1,0 +1,196 @@
+{
+  "settings": {
+    "max_result_window": 200000,
+    "analysis": {
+              "char_filter": {
+                  "underscore":{
+                      "type":"pattern_replace",
+                      "pattern":"_*((~_)*)_*",
+                      "replacement":"$1"
+
+                  },
+                  "pics":{
+                      "type":"pattern_replace",
+                      "pattern":"!\\[[^\\]]*\\](\\([^\\)]*\\))?",
+                      "replacement":""
+
+                  },
+                  "links":{
+                      "type":"pattern_replace",
+                      "pattern":"\\[([^\\]]*)\\](\\([^\\)]*\\))?",
+                      "replacement":"$1"
+
+                  },
+                  "compound":{
+                      "type":"pattern_replace",
+                      "pattern":"-",
+                      "replacement":""
+                  },
+                  "swedish_ae":{
+                      "type":"pattern_replace",
+                      "pattern":"[æÆǞǟ]",
+                      "replacement":"ä"
+                  },
+                  "swedish_aa":{
+                      "type":"pattern_replace",
+                      "pattern":"[Ǻǻ]",
+                      "replacement":"å"
+                  },
+                  "swedish_oe":{
+                      "type":"pattern_replace",
+                      "pattern":"[ØøŒœØ̈ø̈ȪȫŐőÕõṌṍṎṏȬȭǾǿǬǭŌōṒṓṐṑ]",
+                      "replacement":"ö"
+                  },
+                  "slash_filter": {
+                      "type":"pattern_replace",
+                      "pattern":"(.*)/(.+)/(.*)",
+                      "replacement":"$2"
+                  },
+                  "remove_slash_filter": {
+                      "type":"pattern_replace",
+                      "pattern":"(.*)/(.+)/(.*)",
+                      "replacement":"$1$2$3"
+                  },
+                  "removespecials":{
+                       "type": "pattern_replace",
+                       "pattern": "[^A-Za-zÀÁÂÄÅÆÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜàáâäåæçèéêëìíîïñòóôöùúûü]",
+                       "replacement": ""
+                  },
+                  "init":{
+                       "type": "pattern_replace",
+                       "pattern": "^(.).*",
+                       "replacement": "$1"
+                  }
+              },
+              "filter": {
+                  "swedish_sort": {
+                     "type": "icu_collation",
+                     "language": "sv"
+                   },
+                  "swedish_folding": {
+                    "type": "icu_folding",
+                    "unicodeSetFilter": "[^åäöÅÄÖ]"
+                  },
+                  "english_sort": {
+                     "type": "icu_collation",
+                     "language": "en"
+                   },
+                  "english_folding": {
+                     "type": "icu_folding"
+                   }
+              },
+              "analyzer": {
+                  "default": {
+                      "tokenizer": "standard",
+                      "filter": ["swedish_folding", "lowercase"],
+                      "char_filter": ["compound", "swedish_aa", "swedish_ae", "swedish_oe"]
+                  },
+                  "standard_swedish_sort": {
+                    "tokenizer": "keyword",
+                    "filter":  ["lowercase", "swedish_sort"],
+                    "char_filter": ["swedish_oe", "swedish_ae", "swedish_aa", "removespecials"]
+                  },
+                  "markdown": {
+                      "tokenizer": "standard",
+                      "char_filter": ["pics","links","html_strip","underscore","compound"]
+                  },
+                  "lowerkeyword": {
+                      "tokenizer": "keyword",
+                      "filter": ["lowercase"]
+                  },
+                  "lowerwhitespace": {
+                      "tokenizer": "whitespace",
+                      "filter": ["lowercase"]
+                  }
+
+              }
+          }
+  },
+  "mappings": {
+     "lexicalentry": {
+        "properties": {
+           "all_text": {"type": "text"},
+           "lexiconName": {
+               "type": "keyword"
+           },
+           "lexiconOrder": {
+               "type": "byte"
+           },
+           "lastmodified": {"type": "date",
+                             "fields":  {"raw": {"type": "keyword"}}
+           },
+           "lastmodifiedBy": {
+                "type": "keyword"
+           },
+           "family": {
+               "type": "text",
+               "copy_to": "all_text",
+               "fields": {
+                     "raw": {"type": "keyword"}
+               }
+           },
+           "genus": {
+               "type": "text",
+               "copy_to": "all_text",
+               "fields": {
+                     "raw": {"type": "keyword"}
+               }
+           },
+           "species": {
+               "type": "text",
+               "copy_to": "all_text",
+               "fields": {
+                     "raw": {"type": "keyword"}
+               }
+           },
+           "cultivar": {
+               "type": "text",
+               "copy_to": "all_text",
+               "fields": {
+                     "raw": {"type": "keyword"}
+               }
+           },
+           "latin": {
+               "type": "text",
+               "copy_to": "all_text",
+               "fields": {
+                     "raw": {"type": "keyword"}
+               }
+           },
+           "description": {
+               "type": "text",
+               "copy_to": "all_text",
+               "fields": {
+                     "raw": {"type": "keyword"}
+               }
+           },
+           "mnr": {
+               "copy_to": "all_text",
+               "type": "integer"
+           },
+           "color": {
+               "type": "text",
+               "copy_to": "all_text",
+               "fields": {
+                     "raw": {"type": "keyword"}
+               }
+           },
+           "sun": {
+               "type": "keyword"
+           },
+           "zone": {
+               "copy_to": "all_text",
+               "type": "keyword"
+           },
+           "age": {
+               "copy_to": "all_text",
+               "type": "keyword"
+           },
+           "keywords": {
+               "copy_to": "all_text",
+               "type": "keyword"
+           }
+        }
+     }
+  }
+}

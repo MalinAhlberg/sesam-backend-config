@@ -1,0 +1,129 @@
+{
+  "settings":{
+      "max_result_window": 1000000,
+      "analysis":{
+        "char_filter": {
+             "removespecials":{
+                  "type": "pattern_replace",
+                  "pattern": "[^A-Za-zÀÁÂÄÅÆÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜàáâäåæçèéêëìíîïñòóôöùúûü]",
+                  "replacement": ""
+             }
+        },
+        "filter": {
+            "swedish_sort": {
+               "type": "icu_collation",
+               "language": "sv"
+             }
+        },
+        "analyzer":{
+          "standard_swedish": {
+            "tokenizer": "keyword",
+            "filter":  ["lowercase", "swedish_sort"],
+            "char_filter": ["removespecials"]
+          }
+       }
+    }
+  },
+        "mappings": {
+            "lexicalentry": {
+                "properties": {
+                    "all_text": {"type": "text"},
+                    "lexiconOrder": {
+                        "type": "byte"
+                    },
+                    "mnr": {
+                      "type": "integer",
+                      "copy_to": "all_text"
+                    },
+                    "name": {
+                        "properties": {
+                          "fullname": {
+                            "type": "text"
+                          },
+                          "firstname": {
+                            "type": "text",
+                            "copy_to": ["all_text", "name.fullname"],
+                            "fields": {"raw": {"type": "keyword"}}
+                          },
+                          "lastname": {
+                            "type": "text",
+                            "copy_to": ["all_text", "name.fullname"],
+                            "fields": {"raw": {"type": "keyword"}}
+                          }
+                        }
+                    },
+                    "paid": {
+                      "type": "date",
+                      "format": "yyyy-MM-dd||MM/dd/yyyy"
+                    },
+                    "familymember": {
+                        "properties": {
+                          "name": {
+                            "type": "text",
+                            "copy_to": ["all_text", "familymeber.name.fullname"],
+                            "fields": {"raw": {"type": "keyword"}}
+                          },
+                          "paid": {
+                            "type": "date",
+                            "format": "yyyy-MM-dd||MM/dd/yyyy"
+                          }
+                        }
+                    },
+                    "adress": {
+                        "properties": {
+                          "c/o": {
+                            "type": "text",
+                            "copy_to": "all_text",
+                            "fields": {"raw": {"type": "keyword"}}
+                          },
+                          "line1": {
+                            "type": "text",
+                            "copy_to": "all_text",
+                            "fields": {"raw": {"type": "keyword"}}
+                          },
+                          "line2": {
+                            "type": "text",
+                            "copy_to": "all_text",
+                            "fields": {"raw": {"type": "keyword"}}
+                          },
+                          "zipcode": {
+                            "type": "integer"
+                          },
+                          "city": {
+                            "type": "text",
+                            "copy_to": "all_text",
+                            "fields": {"raw": {"type": "keyword"}}
+                          },
+                          "country": {
+                            "type": "text",
+                            "copy_to": "all_text",
+                            "fields": {"raw": {"type": "keyword"}}
+                          },
+                          "email": {
+                            "type": "keyword"
+                          },
+                          "telephone": {
+                            "type": "text",
+                            "fields": {"raw": {"type": "keyword"}}
+                          }
+                        }
+                    },
+                    "gesall": {
+                      "type": "text",
+                     "copy_to": "all_text",
+                      "fields": {"raw": {"type": "keyword"}}
+                    },
+                    "alderman": {
+                      "type": "text",
+                      "copy_to": "all_text",
+                      "fields": {"raw": {"type": "keyword"}}
+                    },
+                    "otherinfo": {
+                      "type": "text",
+                      "copy_to": "all_text",
+                      "fields": {"raw": {"type": "keyword"}}
+                    }
+                }
+            }
+        }
+}

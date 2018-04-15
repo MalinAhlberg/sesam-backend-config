@@ -1,0 +1,18 @@
+{
+  "sesammembers": {
+    "path": "data/sesam/",
+    "no_escape": false,
+    "format": "json",
+    "usedtags": [],
+    "mode": "sesam",
+    "order": 0
+  },
+  "sesamfroer": {
+    "path": "data/sesam/",
+    "no_escape": false,
+    "format": "json",
+    "usedtags": [],
+    "mode": "sesam",
+    "order": 0
+  }
+}
